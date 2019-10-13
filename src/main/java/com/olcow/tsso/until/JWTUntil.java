@@ -3,9 +3,12 @@ package com.olcow.tsso.until;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.olcow.tsso.dto.KeyValueDTO;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import static com.olcow.tsso.Constant.*;
 
 /**
  *JWT工具类
@@ -13,20 +16,29 @@ import org.springframework.stereotype.Component;
 @Component
 public class JWTUntil {
 
+    @Value("${PublicKey}")
+    private String publicKey;
+
     /**
      * 验证token
      * @param token token
      * @return 1-有效 2-无效 3-过期
      */
-    public int verifier(String token){
-        JWTVerifier verifier = JWT.require(Algorithm.HMAC256("keyl")).build();
+    public KeyValueDTO<Integer,Integer> verifier(String token){
+        JWTVerifier verifier = JWT.require(Algorithm.HMAC256(publicKey)).build();
         try {
             verifier.verify(token);
-        } catch (SignatureVerificationException e){
-            return 2;
         } catch (TokenExpiredException e){
-            return 3;
+            return new KeyValueDTO<>(VERIFIER_EXPIRED,null);
+        } catch (Exception e) {
+            return new KeyValueDTO<>(VERIFIER_ERROR,null);
         }
-        return 1;
+        Integer userId;
+        try {
+            userId = JWT.decode(token).getClaim("userId").asInt();
+        } catch (Exception e) {
+            return new KeyValueDTO<>(VERIFIER_ERROR,null);
+        }
+        return new KeyValueDTO<>(VERIFIER_SUCCESS,userId);
     }
 }

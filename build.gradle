@@ -39,6 +39,8 @@ dependencies {
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.1.7.RELEASE'
 	//JWT
 	compile group: 'com.auth0', name: 'java-jwt', version: '3.8.2'
+	//配置ConfigurationProperties
+	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 }
 
 //执行mybatisGenerate任务自动生成model mapper和dao文件

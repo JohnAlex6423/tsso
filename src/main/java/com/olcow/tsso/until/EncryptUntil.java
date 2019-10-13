@@ -37,7 +37,7 @@ public class EncryptUntil {
      */
     private static String byte2Hex(byte[] bytes) {
         StringBuffer stringBuffer = new StringBuffer();
-        String temp = null;
+        String temp;
         for (byte aByte : bytes) {
             temp = Integer.toHexString(aByte & 0xFF);
             if (temp.length() == 1) {

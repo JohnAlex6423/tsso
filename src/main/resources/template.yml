@@ -5,60 +5,62 @@ spring:
       username:
       password:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      # ÏÂÃæÎªÁ¬½Ó³ØµÄ²¹³äÉèÖÃ£¬Ó¦ÓÃµ½ÉÏÃæËùÓĞÊı¾İÔ´ÖĞ
-      # ³õÊ¼»¯´óĞ¡£¬×îĞ¡£¬×î´ó
+      # ä¸‹é¢ä¸ºè¿æ¥æ± çš„è¡¥å……è®¾ç½®ï¼Œåº”ç”¨åˆ°ä¸Šé¢æ‰€æœ‰æ•°æ®æºä¸­
+      # åˆå§‹åŒ–å¤§å°ï¼Œæœ€å°ï¼Œæœ€å¤§
       initial-size: 5
       min-idle: 5
       max-active: 20
-      # ÅäÖÃ»ñÈ¡Á¬½ÓµÈ´ı³¬Ê±µÄÊ±¼ä
+      # é…ç½®è·å–è¿æ¥ç­‰å¾…è¶…æ—¶çš„æ—¶é—´
       max-wait: 60000
-      # ÅäÖÃ¼ä¸ô¶à¾Ã²Å½øĞĞÒ»´Î¼ì²â£¬¼ì²âĞèÒª¹Ø±ÕµÄ¿ÕÏĞÁ¬½Ó£¬µ¥Î»ÊÇºÁÃë
+      # é…ç½®é—´éš”å¤šä¹…æ‰è¿›è¡Œä¸€æ¬¡æ£€æµ‹ï¼Œæ£€æµ‹éœ€è¦å…³é—­çš„ç©ºé—²è¿æ¥ï¼Œå•ä½æ˜¯æ¯«ç§’
       time-between-eviction-runs-millis: 60000
-      # ÅäÖÃÒ»¸öÁ¬½ÓÔÚ³ØÖĞ×îĞ¡Éú´æµÄÊ±¼ä£¬µ¥Î»ÊÇºÁÃë
+      # é…ç½®ä¸€ä¸ªè¿æ¥åœ¨æ± ä¸­æœ€å°ç”Ÿå­˜çš„æ—¶é—´ï¼Œå•ä½æ˜¯æ¯«ç§’
       min-evictable-idle-time-millis: 300000
       validation-query: SELECT 1 FROM DUAL
       test-while-idle: true
       test-on-borrow: false
       test-on-return: false
-      # ´ò¿ªPSCache£¬²¢ÇÒÖ¸¶¨Ã¿¸öÁ¬½ÓÉÏPSCacheµÄ´óĞ¡
+      # æ‰“å¼€PSCacheï¼Œå¹¶ä¸”æŒ‡å®šæ¯ä¸ªè¿æ¥ä¸ŠPSCacheçš„å¤§å°
       pool-prepared-statements: false
-      #   ÅäÖÃ¼à¿ØÍ³¼ÆÀ¹½ØµÄfilters£¬È¥µôºó¼à¿Ø½çÃæsqlÎŞ·¨Í³¼Æ£¬'wall'ÓÃÓÚ·À»ğÇ½
+      #   é…ç½®ç›‘æ§ç»Ÿè®¡æ‹¦æˆªçš„filtersï¼Œå»æ‰åç›‘æ§ç•Œé¢sqlæ— æ³•ç»Ÿè®¡ï¼Œ'wall'ç”¨äºé˜²ç«å¢™
       max-pool-prepared-statement-per-connection-size: 20
       filters: stat,wall
       use-global-data-source-stat: true
-      # Í¨¹ıconnectPropertiesÊôĞÔÀ´´ò¿ªmergeSql¹¦ÄÜ£»ÂıSQL¼ÇÂ¼
+      # é€šè¿‡connectPropertieså±æ€§æ¥æ‰“å¼€mergeSqlåŠŸèƒ½ï¼›æ…¢SQLè®°å½•
       connect-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
-      # ÅäÖÃ¼à¿Ø·şÎñÆ÷
+      # é…ç½®ç›‘æ§æœåŠ¡å™¨
       stat-view-servlet:
         enabled: true
         login-username:
         login-password:
         reset-enable: false
         url-pattern: /druid/*
-        # Ìí¼ÓIP°×Ãûµ¥
+        # æ·»åŠ IPç™½åå•
         #allow:
-        # Ìí¼ÓIPºÚÃûµ¥£¬µ±°×Ãûµ¥ºÍºÚÃûµ¥ÖØ¸´Ê±£¬ºÚÃûµ¥ÓÅÏÈ¼¶¸ü¸ß
+        # æ·»åŠ IPé»‘åå•ï¼Œå½“ç™½åå•å’Œé»‘åå•é‡å¤æ—¶ï¼Œé»‘åå•ä¼˜å…ˆçº§æ›´é«˜
         #deny:
       web-stat-filter:
-        # Ìí¼Ó¹ıÂË¹æÔò
+        # æ·»åŠ è¿‡æ»¤è§„åˆ™
         url-pattern: /*
-        # ºöÂÔ¹ıÂË¸ñÊ½
+        # å¿½ç•¥è¿‡æ»¤æ ¼å¼
         exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
   mail:
-    host:
-    username:
+    host: smtp.aliyun.com
+    username: olcow.com@aliyun
     password:
     default-encoding: UTF-8
-    fromMail.addr:
+    fromMail.addr: olcow.com@aliyun.com
     properties:
       mail:
         smtp:
           auth: true
           ssl:
             enable: true
-    # ÒòÎª·şÎñÆ÷¹Ø±ÕÁË³£ÓÃµÄ·¢ËÍÓÊ¼ş¶Ë¿ÚËùÒÔĞèÒªÕÒµ½°²È«·¢ËÍ½Ó¿Ú
+    # æœåŠ¡å•†ä¸€åŠä¼šå…³é—­å¸¸ç”¨å‘é€é‚®ä»¶ç«¯å£ æ‰€ä»¥è¦ç”¨å®‰å…¨ç‰¹æ®Šå‘é€ç«¯å£
     port: 465
-# ²é¿´dao²ã²éÑ¯Óï¾äÈÕÖ¾ Èç¹û·¢²¼ÇëÉ¾³ı
+# æ‰“å°æ‰€æœ‰daoå±‚æ‰§è¡Œçš„sqlçš„log ä¸Šçº¿æ—¶è¯·åˆ é™¤
 logging:
   level:
     com.olcow.tsso.dao: debug
+#åŠ å¯†å¯†é’¥
+PublicKey:

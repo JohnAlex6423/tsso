@@ -21,4 +21,19 @@ public class Constant {
      * 会员
      */
     public static final Integer USER_ROLE_VIP = 3;
+
+    /**
+     * 验证成功
+     */
+    public static final Integer VERIFIER_SUCCESS = 1;
+
+    /**
+     * 验证失败
+     */
+    public static final Integer VERIFIER_ERROR = 2;
+
+    /**
+     * 验证过期
+     */
+    public static final Integer VERIFIER_EXPIRED = 3;
 }

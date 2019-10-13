@@ -25,4 +25,7 @@ public class KeyValueDTO<T,K> {
         this.key = key;
         this.value = value;
     }
+
+    public KeyValueDTO() {
+    }
 }

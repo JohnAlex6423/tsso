@@ -1,5 +1,6 @@
 package com.olcow.tsso.dao;
 
+import com.olcow.tsso.dto.UserDTO;
 import com.olcow.tsso.model.UserInfo;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -38,4 +39,19 @@ public interface UserInfoMapper extends Mapper<UserInfo> {
      */
     @Select("SELECT id,password,salt FROM user_info WHERE email = #{email}")
     UserInfo selectUserIdAndPasswordByEmail(@Param("email")String email);
+
+    /**
+     * 通过id查询user信息
+     * @param userId userId
+     * @return user信息
+     */
+    @Select(" SELECT info.username,info.id userId,detail.nike_name nikeName,detail.avatar,role.role," +
+            "       role.role_desc roleDesc,permission.permission,permission.permission_desc permissionDesc" +
+            " FROM user_info info " +
+            "    INNER JOIN user_detail detail ON info.id = #{userId} AND info.id = detail.user_id" +
+            "    INNER JOIN user_role userRole ON userRole.user_id = info.id" +
+            "    INNER JOIN role ON role.role = userRole.role" +
+            "    INNER JOIN role_permission rolePermission ON userRole.role = rolePermission.role " +
+            "    INNER JOIN permission ON rolePermission.permission = permission.permission")
+    UserDTO selectUserDTOById(@Param("userId")Integer userId);
 }
