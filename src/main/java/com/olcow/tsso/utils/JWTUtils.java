@@ -1,4 +1,4 @@
-package com.olcow.tsso.until;
+package com.olcow.tsso.utils;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -8,13 +8,13 @@ import com.olcow.tsso.dto.KeyValueDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import static com.olcow.tsso.Constant.*;
+import static com.olcow.tsso.constant.Constant.*;
 
 /**
  *JWT工具类
  */
 @Component
-public class JWTUntil {
+public class JWTUtils {
 
     @Value("${PublicKey}")
     private String publicKey;

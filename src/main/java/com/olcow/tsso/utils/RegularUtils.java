@@ -1,9 +1,9 @@
-package com.olcow.tsso.until;
+package com.olcow.tsso.utils;
 
 import org.springframework.stereotype.Component;
 
 @Component
-public class RegularUntil {
+public class RegularUtils {
 
     /**
      * 判断用户名是否只包含字母数字_-@

@@ -1,4 +1,4 @@
-package com.olcow.tsso.until;
+package com.olcow.tsso.utils;
 
 import org.springframework.stereotype.Component;
 
@@ -7,7 +7,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 @Component
-public class EncryptUntil {
+public class EncryptUtils {
 
     /**
      * 利用java原生的类实现SHA256加密

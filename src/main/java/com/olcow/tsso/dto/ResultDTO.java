@@ -1,11 +1,13 @@
 package com.olcow.tsso.dto;
 
+import com.olcow.tsso.constant.ReturnCode;
+
 public class ResultDTO {
 
     /**
      * 请求状态
      */
-    private boolean status;
+    private String code;
 
     /**
      * 结果信息
@@ -20,18 +22,18 @@ public class ResultDTO {
     public ResultDTO() {
     }
 
-    public ResultDTO(boolean status, String message, Object data) {
-        this.status = status;
-        this.message = message;
+    public ResultDTO(ReturnCode returnCode, Object data) {
+        this.code = returnCode.getCode();
+        this.message = returnCode.getMsg();
         this.data = data;
     }
 
-    public boolean isStatus() {
-        return status;
+    public String getCode() {
+        return code;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getMessage() {

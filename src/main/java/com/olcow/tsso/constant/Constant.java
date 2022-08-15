@@ -1,4 +1,4 @@
-package com.olcow.tsso;
+package com.olcow.tsso.constant;
 
 public class Constant {
 

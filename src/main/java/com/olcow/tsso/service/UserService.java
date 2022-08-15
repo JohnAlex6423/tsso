@@ -2,23 +2,26 @@ package com.olcow.tsso.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.olcow.tsso.dao.UserDetailMapper;
-import com.olcow.tsso.dao.UserInfoMapper;
-import com.olcow.tsso.dao.UserRoleMapper;
-import com.olcow.tsso.dto.KeyValueDTO;
-import com.olcow.tsso.model.UserDetail;
-import com.olcow.tsso.model.UserInfo;
-import com.olcow.tsso.model.UserRole;
-import com.olcow.tsso.until.EncryptUntil;
-import com.olcow.tsso.until.RegularUntil;
+import com.olcow.tsso.dto.ResultDTO;
+import com.olcow.tsso.mapper.UserDetailMapper;
+import com.olcow.tsso.mapper.UserInfoMapper;
+import com.olcow.tsso.mapper.UserRoleMapper;
+import com.olcow.tsso.entity.UserDetail;
+import com.olcow.tsso.entity.UserInfo;
+import com.olcow.tsso.entity.UserRole;
+import com.olcow.tsso.utils.EncryptUtils;
+import com.olcow.tsso.utils.RegularUtils;
+import com.olcow.tsso.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.time.LocalDate;
 import java.util.Date;
 
-import static com.olcow.tsso.Constant.ENCRYPT_SHA256;
-import static com.olcow.tsso.Constant.USER_ROLE_NORMAL;
+import static com.olcow.tsso.constant.Constant.ENCRYPT_SHA256;
+import static com.olcow.tsso.constant.Constant.USER_ROLE_NORMAL;
+import static com.olcow.tsso.constant.ReturnCode.*;
 import static java.lang.System.currentTimeMillis;
 
 @Service
@@ -28,10 +31,10 @@ public class UserService {
     private UserInfoMapper userInfoMapper;
 
     @Resource
-    private EncryptUntil encryptUntil;
+    private EncryptUtils encryptUntil;
 
     @Resource
-    private RegularUntil regularUntil;
+    private RegularUtils regularUntil;
 
     @Resource
     private UserDetailMapper userDetailMapper;
@@ -49,26 +52,29 @@ public class UserService {
      * @param email 邮箱
      * @return 注册结果
      */
-    public KeyValueDTO<String,String> register(String userName, String password, String email){
+    public ResultDTO register(String userName, String password, String email){
         if (!regularUntil.usernameTest(userName)){
-            return new KeyValueDTO<>("01001",null);
+            return new ResultDTO(CODE01001,null);
         }
         if(!regularUntil.passwordTest(password)){
-            return new KeyValueDTO<>("01002",null);
+            return new ResultDTO(CODE01002,null);
+        }
+        if(StringUtils.isBlank(publicKey)){
+            return new ResultDTO(CODE99999,null);
         }
         try {
             Integer usernameIsExistUserId = userInfoMapper.selectUserIdByUsername(userName);
             if (usernameIsExistUserId != null){
-                return new KeyValueDTO<>("01004",null);
+                return new ResultDTO(CODE01004,null);
             }
             Integer emailIsExistUserId = userInfoMapper.selectUserIdByEmail(email);
             if (emailIsExistUserId != null){
-                return new KeyValueDTO<>("01005",null);
+                return new ResultDTO(CODE01005,null);
             }
             String salt = String.valueOf(currentTimeMillis());
             String result = encryptUntil.Encryption(ENCRYPT_SHA256,password+salt);
             if (!result.equals("error")){
-                Date date = new Date();
+                LocalDate date = LocalDate.now();
                 UserInfo userInfo = new UserInfo();
                 userInfo.setUsername(userName);
                 userInfo.setSalt(salt);
@@ -90,12 +96,12 @@ public class UserService {
                         .withClaim("userId",userInfo.getId())
                         .withExpiresAt(new Date(System.currentTimeMillis() + 2592000000L))
                         .sign(Algorithm.HMAC256(publicKey));
-                return new KeyValueDTO<>("00001",token);
+                return new ResultDTO(SUCCESS,token);
             }else {
-                return new KeyValueDTO<>("01003",null);
+                return new ResultDTO(CODE01003,null);
             }
         } catch (Exception e){
-            return new KeyValueDTO<>("00002",null);
+            return new ResultDTO(FAIL,null);
         }
     }
 }
